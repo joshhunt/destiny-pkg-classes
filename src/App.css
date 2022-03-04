@@ -59,7 +59,8 @@ body,
   }
 
   .Settings {
-    padding: 32px 0 16px 0;
+    padding: 16px;
+    padding-top: 32px;
     flex: 0 1 auto;
   }
 
