@@ -9,9 +9,7 @@ import {
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import "./App.css";
-import allData from "./data.json";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import _allData from "./data.json";
 import createTheme from "@mui/material/styles/createTheme";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -20,11 +18,24 @@ import FormGroup from "@mui/material/FormGroup";
 
 const STICKY_HEADER_ROW = {
   classRef: "STICKY_HEADER_ROW",
+  lowerClassRef: "",
+  flippedLowerClassRef: "",
   stride: -1,
 };
 
 const ITEM_SIZE = 48;
 const HEADER_ITEM_SIZE = 41;
+
+const allData = _allData.map((v) => {
+  const lowerClassRef = v.classRef.toLowerCase();
+  return {
+    ...v,
+    lowerClassRef,
+    flippedLowerClassRef: (lowerClassRef.match(/.{1,2}/g) ?? [])
+      .reverse()
+      .join(""),
+  };
+});
 
 const Hex = ({ value }: { value: number }) => {
   const settings = useContext(SettingsContext);
@@ -33,12 +44,10 @@ const Hex = ({ value }: { value: number }) => {
     return <>{value}</>;
   }
 
-  const flipped = settings.endianness === BIG_ENDIAN ? value : swap32(value);
-
   return (
     <span>
       <span className="HexPrefix">0x</span>
-      {flipped.toString(16)}
+      {value.toString(16)}
     </span>
   );
 };
@@ -88,14 +97,9 @@ const innerElementType = forwardRef<HTMLDivElement>(
   )
 );
 
-const LITTLE_ENDIAN = "le";
-const BIG_ENDIAN = "be";
-
-const DEFAULT_ENDIANNESS = BIG_ENDIAN;
 const DEFAULT_DISPLAY_HEX = false;
 
 const SettingsContext = createContext({
-  endianness: DEFAULT_ENDIANNESS,
   displayHex: DEFAULT_DISPLAY_HEX,
 });
 
@@ -134,23 +138,12 @@ function swap32(val: number) {
 
 function App() {
   const [searchValue, setSearchValue] = useLocalStorageState("searchValue", "");
-  const [endianness, setEndianness] = useLocalStorageState(
-    "endianness",
-    DEFAULT_ENDIANNESS
-  );
   const [displayHex, setDisplayHex] = useLocalStorageState(
     "displayHex",
     DEFAULT_DISPLAY_HEX
   );
 
-  const settings = useMemo(
-    () => ({ endianness, displayHex }),
-    [endianness, displayHex]
-  );
-
-  const handleEndiannessChange = (event: any, newValue: string) => {
-    setEndianness(newValue);
-  };
+  const settings = useMemo(() => ({ displayHex }), [displayHex]);
 
   const handleDisplayHexChange = (event: any, newValue: boolean) => {
     setDisplayHex(newValue);
@@ -167,32 +160,20 @@ function App() {
     const inputIsInt = swap32(parseInt(cleanedInput, 10)).toString(16);
     const inputIsLeHex = swap32(parseInt(cleanedInput, 16)).toString(16);
 
-    const flippedString = (cleanedInput.match(/.{1,2}/g) ?? [])
-      .reverse()
-      .join("");
-
-    console.log("flippedString", flippedString);
-
     const res = allData.filter((v) => {
-      const classRef = v.classRef.toLowerCase();
+      const { lowerClassRef, flippedLowerClassRef } = v;
 
       if (
-        classRef === inputIsInt ||
-        classRef === inputIsPartialBeHex ||
-        classRef === inputIsLeHex
+        lowerClassRef === inputIsInt ||
+        lowerClassRef === inputIsPartialBeHex ||
+        lowerClassRef === inputIsLeHex
       ) {
-        console.log({
-          classRef,
-          inputIsInt,
-          inputIsPartialBeHex,
-          inputIsLeHex,
-        });
         return true;
       }
 
       return (
-        classRef.includes(inputIsPartialBeHex) ||
-        classRef.includes(flippedString)
+        lowerClassRef.includes(inputIsPartialBeHex) ||
+        flippedLowerClassRef.includes(inputIsPartialBeHex)
       );
     });
 
@@ -247,31 +228,6 @@ function App() {
           </div>
 
           <div className="Settings">
-            <FormGroup>
-              <ToggleButtonGroup
-                value={endianness}
-                exclusive
-                onChange={handleEndiannessChange}
-                size="small"
-              >
-                <ToggleButton
-                  disableRipple
-                  value={BIG_ENDIAN}
-                  style={{ textTransform: "unset" }}
-                >
-                  Big endian
-                </ToggleButton>
-
-                <ToggleButton
-                  disableRipple
-                  value={LITTLE_ENDIAN}
-                  style={{ textTransform: "unset" }}
-                >
-                  Little endian
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </FormGroup>
-
             <FormGroup>
               <FormControlLabel
                 control={

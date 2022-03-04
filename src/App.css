@@ -27,8 +27,9 @@ body,
 }
 
 .Settings {
-  padding: 0 16px 16px 16px;
+  padding: 0 16px 7px 16px;
   flex: 1 1 auto;
+  align-self: flex-end;
 }
 
 .AppMain {
@@ -59,8 +60,7 @@ body,
   }
 
   .Settings {
-    padding: 16px;
-    padding-top: 32px;
+    padding: 23px 16px 23px 16px;
     flex: 0 1 auto;
   }
 
