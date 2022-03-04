@@ -1,38 +1,140 @@
+* {
+  box-sizing: border-box;
+  font-family: "Roboto Mono", monospace;
+}
+
+html,
+body {
+  background: #ecf0f1;
+}
+
+html,
+body,
+#root,
 .App {
-  text-align: center;
+  height: 100%;
+  /*overflow-x: hidden;*/
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App {
+  /* height: calc(100% - 50px); */
+
+  width: 100%;
+  /* max-width: 720px; */
+  padding-top: 50px;
+
+  display: flex;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.Settings {
+  padding: 0 16px 16px 16px;
+  flex: 1 1 auto;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.AppMain {
+  height: 100%;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 25px 50px 0 rgb(0 0 0 / 10%);
+  background: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  outline: 1px solid rgba(0, 0, 0, 0.05);
+
+  width: 100%;
+  max-width: 720px;
+  margin-left: calc((100vw - 720px) / 2);
+  flex: 1 0 auto;
 }
 
-.App-link {
-  color: #61dafb;
+@media only screen and (max-width: 1240px) {
+  .App {
+    flex-direction: column;
+    padding: 32px 16px 0 16px;
+  }
+
+  .AppMain,
+  .Settings {
+    width: 100%;
+    max-width: 720px;
+    margin: auto;
+  }
+
+  .Settings {
+    padding: 32px 0 16px 0;
+    flex: 0 1 auto;
+  }
+
+  .AppMain {
+    height: unset;
+    flex: 1 1 auto;
+  }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.SearchInput {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  font-size: 24px;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: 1.4em;
+  border: 0;
+  color: inherit;
+  padding: 6px;
+  border: 1px solid #999;
+  box-shadow: inset 0 -1px 5px 0 rgb(0 0 0 / 20%);
+  box-sizing: border-box;
+
+  padding: 16px 16px 16px 16px;
+  border: none;
+  background: rgba(0, 0, 0, 0.003);
+  box-shadow: inset 0 -2px 1px rgb(0 0 0 / 3%);
+  z-index: 3;
+  border-radius: 2px;
+}
+
+.SearchInput:focus {
+  box-shadow: 0 0 0 2px cornflowerblue;
+  outline: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.Results {
+  flex: 1 1 100%;
+  color: #161616;
+}
+
+.ResultsHeader {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.Row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+}
+
+.ClassRef {
+  flex: 1;
+  font-size: 1.5em;
+}
+
+.Stride {
+  font-size: 1.2em;
+}
+
+.ResultsHeader .ClassRef,
+.ResultsHeader .Stride {
+  font-size: 1.2em;
+  color: #383838;
+}
+
+.sticky {
+  position: sticky !important;
+  position: -webkit-sticky !important;
+  z-index: 2;
+}
+
+.HexPrefix {
+  font-size: 0.9em;
+  opacity: 0.6;
 }
