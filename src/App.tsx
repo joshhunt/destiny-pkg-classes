@@ -1,13 +1,4 @@
-import {
-  createContext,
-  forwardRef,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
-import { VariableSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import { useCallback, useMemo, useState } from "react";
 import "./App.css";
 import _allData from "./data.json";
 import createTheme from "@mui/material/styles/createTheme";
@@ -15,6 +6,10 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
+import ClassHashSearch from "./ClashHashSearch";
+import { DEFAULT_DISPLAY_HEX, SettingsContext } from "./settingsContext";
+import { Link, useRoute } from "wouter";
+import HashCalculator from "./HashCalculator";
 
 const STICKY_HEADER_ROW = {
   classRef: "STICKY_HEADER_ROW",
@@ -22,9 +17,6 @@ const STICKY_HEADER_ROW = {
   flippedLowerClassRef: "",
   stride: -1,
 };
-
-const ITEM_SIZE = 48;
-const HEADER_ITEM_SIZE = 41;
 
 const allData = _allData.map((v) => {
   const lowerClassRef = v.classRef.toLowerCase();
@@ -35,72 +27,6 @@ const allData = _allData.map((v) => {
       .reverse()
       .join(""),
   };
-});
-
-const Hex = ({ value }: { value: number }) => {
-  const settings = useContext(SettingsContext);
-
-  if (!settings.displayHex) {
-    return <>{value}</>;
-  }
-
-  return (
-    <span>
-      <span className="HexPrefix">0x</span>
-      {value.toString(16)}
-    </span>
-  );
-};
-
-const Row = ({ index, style, data }: any) => {
-  if (index === 0) {
-    return null;
-  }
-
-  const stride = data[index].stride;
-
-  return (
-    <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
-      <div className="Row">
-        <div className="ClassRef">{data[index].classRef}</div>
-        <div className="Stride">
-          <Hex value={stride} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const StickyRow = ({ index, style }: any) => (
-  <div className="sticky ResultsHeader Row" style={style}>
-    <div className="ClassRef">Class ref</div>
-    <div className="Stride">Stride</div>
-  </div>
-);
-
-const innerElementType = forwardRef<HTMLDivElement>(
-  ({ children, ...rest }, ref) => (
-    <div ref={ref} {...rest}>
-      <StickyRow
-        index={0}
-        key={0}
-        style={{
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: HEADER_ITEM_SIZE,
-        }}
-      />
-
-      {children}
-    </div>
-  )
-);
-
-const DEFAULT_DISPLAY_HEX = false;
-
-const SettingsContext = createContext({
-  displayHex: DEFAULT_DISPLAY_HEX,
 });
 
 function useLocalStorageState<T>(
@@ -137,6 +63,8 @@ function swap32(val: number) {
 }
 
 function App() {
+  const [matchHashCalculator] = useRoute("/hash-calculator");
+
   const [searchValue, setSearchValue] = useLocalStorageState("searchValue", "");
   const [displayHex, setDisplayHex] = useLocalStorageState(
     "displayHex",
@@ -192,42 +120,35 @@ function App() {
     <ThemeProvider theme={theme}>
       <SettingsContext.Provider value={settings}>
         <div className="App">
-          <div className="AppMain">
-            <div className="Header">
-              <input
-                className="SearchInput"
-                type="text"
-                value={searchValue}
-                onChange={(ev) => setSearchValue(ev.target.value)}
-                placeholder="Search by class ref"
-              />
-            </div>
-
-            <div className="Results">
-              <AutoSizer>
-                {({ height, width }) => (
-                  <List
-                    className="List"
-                    height={height}
-                    innerElementType={innerElementType}
-                    itemCount={results.length}
-                    itemSize={(index) =>
-                      index === 0 ? HEADER_ITEM_SIZE : ITEM_SIZE
-                    }
-                    estimatedItemSize={ITEM_SIZE}
-                    width={width}
-                    itemData={results}
-                    itemKey={(index, itemData) => itemData[index].classRef}
-                    overscanCount={100}
-                  >
-                    {Row}
-                  </List>
-                )}
-              </AutoSizer>
-            </div>
-          </div>
+          {matchHashCalculator ? (
+            <HashCalculator />
+          ) : (
+            <ClassHashSearch
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+              results={results}
+            />
+          )}
 
           <div className="Settings">
+            <ul className="Nav">
+              <li className="NavItem">
+                <Link
+                  className={matchHashCalculator ? "NavLink" : "ActiveNavLink"}
+                  href="/"
+                >
+                  Class search
+                </Link>
+              </li>
+              <li className="NavItem">
+                <Link
+                  className={matchHashCalculator ? "ActiveNavLink" : "NavLink"}
+                  href="/hash-calculator"
+                >
+                  Hash calculator
+                </Link>
+              </li>
+            </ul>
             <FormGroup>
               <FormControlLabel
                 control={

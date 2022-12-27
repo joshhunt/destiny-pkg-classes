@@ -30,6 +30,9 @@ body,
   padding: 0 16px 7px 16px;
   flex: 1 1 auto;
   align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .AppMain {
@@ -44,6 +47,32 @@ body,
   max-width: 720px;
   margin-left: calc((100vw - 720px) / 2);
   flex: 1 0 auto;
+}
+
+.Nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.NavItem {
+  margin: 0;
+  padding: 0;
+}
+
+.CalculatorOutput {
+  padding: 16px;
+}
+
+.NavLink {
+  color: hsl(210, 86%, 39%);
+}
+.ActiveNavLink {
+  color: hsl(210, 86%, 39%);
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 1240px) {
@@ -80,7 +109,6 @@ body,
   line-height: 1.4em;
   border: 0;
   color: inherit;
-  padding: 6px;
   border: 1px solid #999;
   box-shadow: inset 0 -1px 5px 0 rgb(0 0 0 / 20%);
   box-sizing: border-box;
