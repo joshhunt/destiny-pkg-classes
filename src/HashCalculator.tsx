@@ -34,8 +34,10 @@ export default function HashCalculator() {
       </div>
 
       <div className="CalculatorOutput">
-        <h3>FNV1-32</h3>
-        <Hex value={hash} />
+        <div>
+          <h3 className="HashTypeHeading">FNV1-32</h3>
+          <Hex value={hash} seperateBytes />
+        </div>
       </div>
     </div>
   );

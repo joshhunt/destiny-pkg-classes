@@ -65,6 +65,16 @@ body,
 
 .CalculatorOutput {
   padding: 16px;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.HashTypeHeading {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  margin-top: 0;
 }
 
 .NavLink {
@@ -73,6 +83,10 @@ body,
 .ActiveNavLink {
   color: hsl(210, 86%, 39%);
   font-weight: bold;
+}
+
+.HexChunk {
+  padding-left: 0.5ch;
 }
 
 @media only screen and (max-width: 1240px) {
