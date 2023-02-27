@@ -3236,6 +3236,10 @@
     "stride": 1
   },
   {
+    "classRef": "99208080",
+    "stride": 1
+  },
+  {
     "classRef": "9A208080",
     "stride": 4
   },
@@ -3702,10 +3706,6 @@
   {
     "classRef": "33218080",
     "stride": 8
-  },
-  {
-    "classRef": "34218080",
-    "stride": 16
   },
   {
     "classRef": "35218080",
@@ -9592,10 +9592,6 @@
     "stride": 1
   },
   {
-    "classRef": "362A8080",
-    "stride": 24
-  },
-  {
     "classRef": "372A8080",
     "stride": 16
   },
@@ -9829,7 +9825,7 @@
   },
   {
     "classRef": "732A8080",
-    "stride": 4
+    "stride": 8
   },
   {
     "classRef": "742A8080",
@@ -24832,6 +24828,10 @@
     "stride": 4
   },
   {
+    "classRef": "F0398080",
+    "stride": 4
+  },
+  {
     "classRef": "F3398080",
     "stride": 16
   },
@@ -27708,10 +27708,6 @@
     "stride": 4
   },
   {
-    "classRef": "EA3F8080",
-    "stride": 8
-  },
-  {
     "classRef": "EB3F8080",
     "stride": 16
   },
@@ -28874,10 +28870,6 @@
   {
     "classRef": "2A418080",
     "stride": 1544
-  },
-  {
-    "classRef": "2B418080",
-    "stride": 1536
   },
   {
     "classRef": "2C418080",
@@ -46972,6 +46964,10 @@
     "stride": 16
   },
   {
+    "classRef": "865C8080",
+    "stride": 16
+  },
+  {
     "classRef": "875C8080",
     "stride": 4
   },
@@ -54256,6 +54252,10 @@
     "stride": 48
   },
   {
+    "classRef": "A3668080",
+    "stride": 16
+  },
+  {
     "classRef": "A4668080",
     "stride": 448
   },
@@ -55394,6 +55394,10 @@
   {
     "classRef": "62698080",
     "stride": 16
+  },
+  {
+    "classRef": "63698080",
+    "stride": 8
   },
   {
     "classRef": "64698080",
@@ -61198,6 +61202,10 @@
   {
     "classRef": "4F728080",
     "stride": 16
+  },
+  {
+    "classRef": "50728080",
+    "stride": 1
   },
   {
     "classRef": "51728080",
@@ -69986,10 +69994,6 @@
   {
     "classRef": "9B7B8080",
     "stride": 60
-  },
-  {
-    "classRef": "9D7B8080",
-    "stride": 1
   },
   {
     "classRef": "9E7B8080",
@@ -85842,6 +85846,10 @@
   {
     "classRef": "9B938080",
     "stride": 32
+  },
+  {
+    "classRef": "9C938080",
+    "stride": 40
   },
   {
     "classRef": "9D938080",
